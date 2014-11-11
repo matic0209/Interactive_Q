@@ -1,0 +1,47 @@
+import re
+from urllib import unquote
+import email.utils
+import numpy as np
+import time
+from time import mktime
+from datetime import datetime
+def extract(fname, keyWord):
+    fr = file(fname, "r")
+    lines = fr.readlines()
+    fr.close()
+    target = []
+    i = 0
+    for line in lines:
+        str_or =  unquote((line))
+        print str_or
+        # print str_or
+        str_time = str_or.split('[',1)[1];
+        str_time = str_time.split(']',1)[0]
+        # test_flag  =  email.utils.parsedate# (str_time) # 
+        struct_time = time.strptime(str_time[:-6],"%d/%b/%Y %H:%M:%S")
+        datetime.fromtimestamp(mktime(struct_time))
+        str_sparql = str_or.split('"',1)[1]
+        str_sparql = str_sparql.split('"',1  )[0].replace("\n"," ")
+        print str_sparql
+    return target    
+    
+    # instances = cont.strip().split("\n\n")
+    # instances = [inst for inst in instances if keyWord in inst.split("\n")[1]] 
+    # K_pattern = re.compile(r"k: (\d+)")
+    # total_pattern = re.compile(r"total edges: (\d+)")
+    # covered_pattern = re.compile(r"covred edge: (\d+)")
+    # dist_pattern = re.compile(r"distriution: \n\d+,(\d+),")
+    # result = []
+    # for inst in instances:
+    #     K = K_pattern.search(inst).group(1)
+    #     total = total_pattern.search(inst).group(1)
+    #     cover = covered_pattern.search(inst).group(1)
+    #     dist = dist_pattern.search(inst).group(1)
+    #     result.append([K, total, cover, dist])
+    # np.savetxt('test.txt', result)     
+
+   
+    # return result
+
+if __name__ == "__main__":
+    extract("../data/query_log/DBpedia_log_sample", "data")
